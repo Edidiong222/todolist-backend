@@ -20,11 +20,11 @@ export class TodolistController {
   }
 
   @Get()
-  // @UseGuards(AuthGuard('jwt'))
+  @UseGuards(AuthGuard('jwt'))
   async findAll(@Req() req) {
-  //    if (req.user.role !== 'admin') {
-  //   throw new HttpException('Admins only', 401);
-  // }
+     if (req.user.role !== 'admin') {
+    throw new HttpException('Admins only', 401);
+  }
     return this.todolistService.findAll();
   }
 
