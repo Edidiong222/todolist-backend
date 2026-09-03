@@ -18,7 +18,7 @@ export class User extends Base {
     @Column({
         type:"enum",
         enum:Role,
-        default:Role.admin,
+        default:Role.user,
     })
     role!:Role;
     @OneToMany(()=>Todolist, (todo)=>todo.user)

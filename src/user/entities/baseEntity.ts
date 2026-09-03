@@ -2,7 +2,7 @@ import { CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Base{
-    @PrimaryGeneratedColumn()
+    @PrimaryGeneratedColumn('uuid')
     id!:string;
     @CreateDateColumn()
     createdDate!:Date;
