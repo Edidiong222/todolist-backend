@@ -27,7 +27,10 @@ import { JwtStrategy } from 'jwtStrategy/jwt.strategy';
 
   controllers: [UserController],
 
-  providers: [UserService, JwtStrategy],
+  providers: [
+    UserService,
+    JwtStrategy,
+  ],
 
   exports: [UserService],
 })

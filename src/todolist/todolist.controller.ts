@@ -9,37 +9,34 @@ import { Roles } from 'guard/role';
 import { User } from 'src/user/entities/user.entity';
 
 @Controller('todolist')
+@UseGuards(AuthGuard('jwt'))
 export class TodolistController {
   constructor(private readonly todolistService: TodolistService) {}
 
   @Post()
-  @UseGuards(AuthGuard(), RoleGuard)
+  @UseGuards(RoleGuard)
   @Roles('user', 'admin')
   create(@Body() createTodolistDto: CreateTodolistDto, @Req() req: Request) {
     return this.todolistService.create(createTodolistDto, req.user as User);
   }
 
   @Get()
-  @UseGuards(AuthGuard('jwt'))
-  async findAll(@Req() req) {
-     if (req.user.role !== 'admin') {
-    throw new HttpException('Admins only', 401);
-  }
-    return this.todolistService.findAll();
+  findAll(@Req() req: Request) {
+    return this.todolistService.findAll(req.user as User);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.todolistService.findOne(+id);
+  findOne(@Param('id') id: string, @Req() req: Request) {
+    return this.todolistService.findOne(id, req.user as User);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTodolistDto: UpdateTodolistDto) {
-    return this.todolistService.update(+id, updateTodolistDto);
+  update(@Param('id') id: string, @Body() updateTodolistDto: UpdateTodolistDto, @Req() req: Request) {
+    return this.todolistService.update(id, updateTodolistDto, req.user as User);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.todolistService.remove(+id);
+  remove(@Param('id') id: string, @Req() req: Request) {
+    return this.todolistService.remove(id, req.user as User);
   }
 }
